@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('image')" :active="request()->routeIs('image')" >
                         {{ __('Image') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('chat')" :active="request()->routeIs('chats')" >
+                        {{ __('Chats') }}
+                    </x-nav-link>
                 </div>
             </div>
             <div class="search">
@@ -28,7 +31,7 @@
                 </form>
             </div>
             <!-- Settings Dropdown -->
-            <div class="sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button

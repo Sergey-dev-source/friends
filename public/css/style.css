@@ -70,6 +70,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .search{
     position: relative;
+    width: 400px;
 }
 
 #ress{
@@ -100,11 +101,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #frame {
-    width: 95%;
+    width: 100%;
     min-width: 360px;
-    max-width: 1000px;
+    display: flex;
+    max-width: 1270px;
     height: 84%;
-    margin: 0 auto;
+    margin: 70px auto;
     background: #E6EAEA;
 }
 
@@ -115,20 +117,21 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-#frame #sidepanel {
+#frame .contact {
     float: left;
     min-width: 280px;
     max-width: 340px;
     width: 40%;
-    height: 100%;
+    height: 680px;
     background: #2c3e50;
     color: #f5f5f5;
     overflow: hidden;
     position: relative;
+
 }
 
 @media screen and (max-width: 735px) {
-    #frame #sidepanel {
+    #frame .contact {
         width: 58px;
         min-width: 58px;
     }
@@ -721,7 +724,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #frame .content .messages {
-    height: auto;
+    height: 620px;
     min-height: calc(100% - 93px);
     max-height: calc(100% - 93px);
     overflow-y: scroll;
@@ -776,8 +779,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #frame .content .messages ul li img {
-    width: 22px;
-    border-radius: 50%;
+    max-width: 46%;
+     border-radius: 10px;
     float: left;
 }
 
@@ -851,8 +854,8 @@ h1, h2, h3, h4, h5, h6 {
 #frame .content .message-input .wrap button {
     float: right;
     border: none;
-    width: 50px;
-    padding: 12px 0;
+    width: 47px;
+    padding: 14px 0;
     cursor: pointer;
     background: #32465a;
     color: #f5f5f5;
@@ -870,4 +873,54 @@ h1, h2, h3, h4, h5, h6 {
 
 #frame .content .message-input .wrap button:focus {
     outline: none;
+}
+
+.chat-contact{
+    width: 90%;
+    margin: 20px auto;
+    padding: 5px;
+}
+
+.chat-contact ul li{
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+.chat-contact ul li a{
+    display: flex;
+}
+.chat-contact ul li a .chat-text{
+    text-transform: capitalize;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 50px;
+}
+
+.contact-active{
+    background: #ffffff;
+}
+
+.contact-active a .chat-text{
+    color: #1a202c;
+}
+
+.chat-image{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 40px;
+}
+
+.chat-image img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+#ress a{
+    display: block;
+    margin: 20px 10px 0;
+    background: #fff;
+    padding: 20px;
 }

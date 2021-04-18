@@ -4,14 +4,13 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 flex bg-white border-b border-gray-200">
                     <div class="block2">
                         <div class="im">
-                            <img src="/images/{{ $users->accounts[0]->avatar }}" alt="">
+                            <img @if(!empty($users->accounts[0]->avatar))src="/images/{{ $users->accounts[0]->avatar }}"@else src="/images/us.png"@endif alt="">
                         </div>
                     </div>
                     <div class="block1">
@@ -32,3 +31,5 @@
         </div>
     </div>
 </x-app-layout>
+
+

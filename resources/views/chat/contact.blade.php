@@ -7,43 +7,62 @@
     </x-slot>
 
     <div id="frame">
+        <div class="contact">
+            <div class="chat-contact">
+                <ul>
+                    @if($contacts->count())
+                        @foreach($contacts as $contact)
+                            <li @if($cintactId == $contact->id) class="contact-active" @endif>
+                                <a href="{{ asset('contact/'.$contact->id) }}">
+                                    <div class="chat-image">
+                                        <img @if(!empty($contact->accounts[0]->avatar)) src="/images/{{ $contact->accounts[0]->avatar }}"
+                                             @else src="/images/us.png" @endif alt="">
+                                    </div>
+                                    <div class="chat-text">
+                                        {{ $contact->name }}
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
+            </div>
+        </div>
         <div class="content">
             <div class="contact-profile">
-                <img src="/images/{{ $cont->accounts[0]->avatar }}" alt=""/>
-                <p>{{ $cont->name }}</p>
+                {{--                <img src="/images/{{ $cont->accounts[0]->avatar }}" alt=""/>--}}
+                {{--                <p>{{ $cont->name }}</p>--}}
 
             </div>
             <div class="messages">
                 <ul>
-                    @foreach($mess as $m)
-                        @if($m->from == Auth::id())
-                            <li class="replies">
-                                <p>{{ $m->message }}</p>
+                    @foreach($messages as $m)
 
-                            </li>
-                        @else
-                            <li class="sent">
-                                <p>{{ $m->message }}</p>
-
-                            </li>
-                        @endif
+                        <li @if($m->from == Auth::id()) class="replies" @else class="sent" @endif >
+                            @if (!empty($m->message_file))
+                                <?php $f = explode('.',$m->message_file); ?>
+                                @if($f[1] == 'mp4')
+                                        <video width="320" height="240" controls>
+                                            <source src="{{ $m->message_file }}" type="video/mp4">
+                                        </video>
+                                    @else
+                                <img src="{{ $m->message_file }}" alt="">
+                                    @endif
+                            @endif
+                            @if(!empty($m->message))
+                                <p>
+                                    {{ $m->message }}
+                                </p>
+                            @endif
+                        </li>
                     @endforeach
-{{--                    <li class="sent">--}}
-{{--                        <img src="http://emilcarlsson.se/assets/mikeross.png" alt=""/>--}}
-{{--                        <p>What are you talking about? You do what they say or they shoot you.</p>--}}
-{{--                    </li>--}}
-{{--                    <li class="replies">--}}
-{{--                        <img src="http://emilcarlsson.se/assets/harveyspecter.png" alt=""/>--}}
-{{--                        <p>Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any--}}
-{{--                            one of a hundred and forty six other things.</p>--}}
-{{--                    </li>--}}
                 </ul>
             </div>
             <div class="message-input">
                 <div class="wrap">
                     <form action="{{ route('create_chat') }}" method="post" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="to" value="{{ $cont->id }}">
+                        <input type="hidden" name="to" value="{{ $cintactId }}">
                         <input type="text" name="message" placeholder="Write your message..."/>
                         <label for="ff"><i class="fa fa-paperclip attachment" aria-hidden="true"></i></label>
                         <input type="file" style="display: none" name="image" id="ff">

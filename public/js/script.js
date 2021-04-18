@@ -15,7 +15,11 @@ $(function () {
 	  						html+= "<a href='/user/"+v.id+"' >"
 		  						html+= "<div class='flex'>"
 		  							html+= "<div class='search_image'>"
-		  								html+= "<img src = '/images/"+v1.avatar+"'>"
+										if (v1.avatar != null) {
+											html += "<img src = '/images/" + v1.avatar + "'>";
+										}else {
+											html += "<img src = '/images/us.png'>";
+										}
 		  							html+= "</div>"
 		  							html+= "<div class='search_text'>"
 		  								html+= "<h2>"+ v.name +"</h2>"

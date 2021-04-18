@@ -8,7 +8,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth','verified'])->group(function (){
+Route::middleware(['auth','verifie'])->group(function (){
     Route::get('/dashboard', 'UserController@dashboard')->name('dashboard');
     Route::get('/status', 'UserController@status')->name('status');
     Route::post('/status', 'UserController@stat')->name('stat');
@@ -20,7 +20,7 @@ Route::middleware(['auth','verified'])->group(function (){
     Route::post('/search','SearchController@search');
     Route::get('/user/{id}','UserController@user');
     Route::get('/contact/{id}','MessageController@index');
-    Route::get('/chat/{id}','MessageController@chat')->name('chats');
+    Route::get('/chats/','MessageController@chat')->name('chat');
     Route::post('/chats}','MessageController@create_chat')->name('create_chat');
 });
 
@@ -35,6 +35,3 @@ Route::group(['middleware'=>'auth'],function (){
 require __DIR__.'/auth.php';
 
 
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});

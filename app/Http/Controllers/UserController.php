@@ -15,6 +15,7 @@ class UserController extends Controller
     public function dashboard()
     {
         $users = Auth::user();
+
         return view('user.dashboard',compact('users'));
     }
     public function status(){
@@ -48,6 +49,9 @@ class UserController extends Controller
 
     public function user($id)
     {
+        if ($id == Auth::id()){
+            return redirect(route('dashboard'));
+        }
     	$user = User::where('id',$id)->first();
     	return view('user.user',compact('user'));
     }
