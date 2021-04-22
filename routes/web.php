@@ -21,4 +21,5 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/contacts', [App\Http\Controllers\HomeController::class, 'get']);
+Route::get('/messages/get/{id}', [App\Http\Controllers\HomeController::class, 'getMessage']);
 Route::post('/message/create', [App\Http\Controllers\HomeController::class, 'create']);

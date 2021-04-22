@@ -29,17 +29,32 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function get(){
-        $contacts = User::where('id','!=',Auth::id())->get();
+    public function get()
+    {
+        $contacts = User::where('id', '!=', Auth::id())->get();
         return response()->json($contacts);
     }
 
-    public function create(Request $request){
+    public function create(Request $request)
+    {
         $message = new Message;
         $message->from = $request->user_id;
         $message->to = $request->contact_id;
         $message->message = $request->message;
         $message->save();
+        return response()->json($message);
+    }
+
+    public function getMessage($id)
+    {
+        $message = Message::where(function ($q) use ($id) {
+            $q->where('from', Auth::id())
+                ->where('to', $id);
+        })
+            ->orWhere(function ($q) use ($id) {
+                $q->where('from', $id)
+                    ->where('to', Auth::id());
+            })->get();
         return response()->json($message);
     }
 }

@@ -3,7 +3,7 @@
         <ul>
             <li v-for="message in messages" :key="message.id"  >
                 {{ message.message }}
-            </li>
+            </li>{{ messages }}
         </ul>
     </div>
 </template>

@@ -1871,7 +1871,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selected: null,
       contact_name: '',
-      contacts: []
+      contacts: [],
+      messages: []
     };
   },
   mounted: function mounted() {
@@ -1883,8 +1884,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     userSelect: function userSelect(contact) {
+      var _this2 = this;
+
       this.selected = contact.id;
       this.contact_name = contact.name;
+      axios.get("/messages/get/" + contact.id).then(function (response) {
+        _this2.messages.push(response.data);
+      });
     }
   }
 });
@@ -2068,6 +2074,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     contact_name: {
       "default": ''
+    },
+    message: {
+      type: Array
     }
   },
   data: function data() {
@@ -2080,6 +2089,9 @@ __webpack_require__.r(__webpack_exports__);
     newMessage: function newMessage(m) {
       this.messages.push(m);
     }
+  },
+  mounted: function mounted() {
+    this.messages.push(this.message);
   }
 });
 
@@ -6624,7 +6636,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.chat-app{\n    display: flex;\n    justify-content: space-between;\n    height: 500px;\n    overflow-y: hidden;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.chat-app {\n  display: flex;\n  justify-content: space-between;\n  height: 500px;\n  overflow-y: hidden;\n}\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6672,7 +6684,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.contact-list{\n    width: 20%;\n    border-left: solid 1px #000;\n}\n.contact-list ul{\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.contact-list ul li {\n    width: 100%;\n    padding: 10px;\n    border-bottom: 1px solid #000;\n    cursor: pointer;\n}\n.name{\n    margin: 0;\n    text-transform: capitalize;\n}\n.email{\n    margin: 0;\n}\n.selected {\n    background-color: #2a9055;\n}\n.selected p{\n    color: white;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.contact-list{\n    width: 20%;\n    border-left: solid 1px #000;\n  overflow: auto;\n}\n.contact-list ul{\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.contact-list ul li {\n    width: 100%;\n    padding: 10px;\n    border-bottom: 1px solid #000;\n    cursor: pointer;\n}\n.name{\n    margin: 0;\n    text-transform: capitalize;\n}\n.email{\n    margin: 0;\n}\n.selected {\n    background-color: #2a9055;\n}\n.selected p{\n    color: white;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -6696,7 +6708,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.conversation {\n    width:80%;\n    display: flex;\n    height: 100%;\n    flex-direction: column;\n    justify-content: space-between;\n}\n.chat-name {\n    width: 100%;\n    background-color: black;\n}\n.chat-name h1 {\n    color: white;\n    padding-left: 20px;\n    text-transform: capitalize;\n    font-size: 25px;\n    line-height: 42px;\n    margin-top: 6px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.conversation {\n  width: 80%;\n  display: flex;\n  height: 100%;\n  flex-direction: column;\n  justify-content: space-between;\n}\n.chat-name {\n  width: 100%;\n  background-color: black;\n}\n.chat-name h1 {\n  color: white;\n  padding-left: 20px;\n  text-transform: capitalize;\n  font-size: 25px;\n  line-height: 42px;\n  margin-top: 6px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -38180,6 +38192,7 @@ var render = function() {
       _c("conversation", {
         attrs: {
           user: _vm.user,
+          message: _vm.messages,
           contact_name: _vm.contact_name,
           selected: _vm.selected
         }
@@ -38219,12 +38232,15 @@ var render = function() {
   return _c("div", { staticClass: "chat-body" }, [
     _c(
       "ul",
-      _vm._l(_vm.messages, function(message) {
-        return _c("li", { key: message.id }, [
-          _vm._v("\n            " + _vm._s(message.message) + "\n        ")
-        ])
-      }),
-      0
+      [
+        _vm._l(_vm.messages, function(message) {
+          return _c("li", { key: message.id }, [
+            _vm._v("\n            " + _vm._s(message.message) + "\n        ")
+          ])
+        }),
+        _vm._v(_vm._s(_vm.messages) + "\n    ")
+      ],
+      2
     )
   ])
 }

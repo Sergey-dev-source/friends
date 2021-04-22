@@ -32,6 +32,7 @@
     .contact-list{
         width: 20%;
         border-left: solid 1px #000;
+      overflow: auto;
     }
     .contact-list ul{
         list-style: none;
