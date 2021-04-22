@@ -2,36 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 
-
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware(['auth','verifie'])->group(function (){
-    Route::get('/dashboard', 'UserController@dashboard')->name('dashboard');
-    Route::get('/status', 'UserController@status')->name('status');
-    Route::post('/status', 'UserController@stat')->name('stat');
-    Route::get('/account', 'AccauntController@index')->name('account');
-    Route::post('/account', 'AccauntController@edit')->name('edit');
-    Route::get('/image', 'ImageController@index')->name('image');
-    Route::post('/image', 'ImageController@add')->name('img');
-    Route::post('/i', 'ImageController@sel_avatar')->name('se_img');
-    Route::post('/search','SearchController@search');
-    Route::get('/user/{id}','UserController@user');
-    Route::get('/contact/{id}','MessageController@index');
-    Route::get('/chats/','MessageController@chat')->name('chat');
-    Route::post('/chats}','MessageController@create_chat')->name('create_chat');
-});
+Auth::routes();
 
-Route::group(['middleware'=>'auth'],function (){
-    Route::get('/add','AddController@index')->name('edit_accaunt');
-    Route::post('/enter_telephone','AddController@enter_telephone')->name('enter_telephone');
-    Route::post('/enter_image','AddController@enter_image')->name('enter_image');
-    Route::get('/enter_image','AddController@skip')->name('skip');
-
-});
-
-require __DIR__.'/auth.php';
-
-
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/contacts', [App\Http\Controllers\HomeController::class, 'get']);
+Route::post('/message/create', [App\Http\Controllers\HomeController::class, 'create']);
