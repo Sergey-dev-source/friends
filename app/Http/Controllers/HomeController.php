@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessage;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,23 +39,18 @@ class HomeController extends Controller
     public function create(Request $request)
     {
         $message = new Message;
-        $message->from = $request->user_id;
+        $message->from = Auth::id();
         $message->to = $request->contact_id;
         $message->message = $request->message;
         $message->save();
+        broadcast(new NewMessage($message))->toOthers();
         return response()->json($message);
     }
 
     public function getMessage($id)
     {
-        $message = Message::where(function ($q) use ($id) {
-            $q->where('from', Auth::id())
-                ->where('to', $id);
-        })
-            ->orWhere(function ($q) use ($id) {
-                $q->where('from', $id)
-                    ->where('to', Auth::id());
-            })->get();
+        $message = Message::where('from',Auth::id())->where('to',$id)->orWhere('from',$id)->where('to',Auth::id())->get();
+
         return response()->json($message);
     }
 }

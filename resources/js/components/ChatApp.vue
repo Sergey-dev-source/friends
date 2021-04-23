@@ -1,7 +1,8 @@
 <template>
   <div class="chat-app">
-    <conversation :user="user" :message="messages" :contact_name="contact_name" :selected="selected"/>
-    <ContactList :contacts="contacts" :select="selected" @selected="userSelect"/>
+    <conversation :user="user" :messages="messages" :contact_name="contact_name" @new="newMessages1"
+                  :selected="selected"/>
+    <ContactList :contacts="contacts" :select="selected" @new="newMessages" @selected="userSelect"/>
   </div>
 </template>
 
@@ -27,6 +28,11 @@ export default {
 
   },
   mounted() {
+    {{ this.user.id }}
+    Echo.private(`messages${this.user.id}`)
+        .listen(`NewMessage`, (e) => {
+          this.hanleIncoming(e.message);
+        })
     axios.get('/contacts')
         .then((response) => {
           this.contacts = response.data;
@@ -37,12 +43,19 @@ export default {
     userSelect(contact) {
       this.selected = contact.id;
       this.contact_name = contact.name;
-      axios.get("/messages/get/" + contact.id)
-          .then((response) => {
-            this.messages.push(response.data);
-          });
+    },
+    newMessages(mess) {
+      this.messages = mess;
+    },
+    newMessages1(mess) {
+      this.messages.push(mess);
+    },
+    hanleIncoming(message){
+      if (this.selected && message.from == this.selected){
+        this.newMessages(message);
+      }
+      alert(message.message)
     }
-
   }
 }
 </script>
@@ -54,6 +67,4 @@ export default {
   height: 500px;
   overflow-y: hidden;
 }
-
-
 </style>

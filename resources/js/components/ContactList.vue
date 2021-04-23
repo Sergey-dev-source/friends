@@ -23,6 +23,10 @@
         methods: {
             selectContact(contact){
                 this.$emit('selected',contact);
+              axios.get("/messages/get/" + contact.id)
+                  .then((response) => {
+                    this.$emit('new',response.data);
+                  });
 
             }
         }

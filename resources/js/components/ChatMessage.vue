@@ -33,7 +33,6 @@
                     return;
                 }
                 axios.post('/message/create',{
-                    user_id: this.user.id,
                     contact_id: this.selected,
                     message: this.message
                 })

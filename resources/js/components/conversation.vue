@@ -5,7 +5,7 @@
       <h1 v-if="contact_name != '' ">{{ contact_name }}</h1>
       <h1 v-else>please entry contact</h1>
     </div>
-    <ChatBody :messages="messages" />
+    <ChatBody :messages="messages" :selected="selected" />
     <ChatMessage :user="user" :selected="selected" @new="newMessage"/>
 
   </div>
@@ -28,23 +28,19 @@ export default {
     contact_name: {
       default: ''
     },
-    message: {
-      type: Array,
+    messages: {
+      type:Array
     }
   },
   data() {
     return {
-      messages: [],
       selectContact: null,
     }
   },
   methods: {
     newMessage(m) {
-      this.messages.push(m);
+      this.$emit('new' , m);
     }
-  },
-  mounted() {
-    this.messages.push(this.message)
   }
 }
 </script>
